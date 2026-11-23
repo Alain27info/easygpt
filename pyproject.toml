@@ -1,0 +1,50 @@
+[project]
+name = "easygpt"
+version = "0.1.0"
+description = "Exercise-style repo: implement a small modern GPT (RMSNorm, RoPE, SwiGLU, AdamW, BPE) from scratch in PyTorch"
+readme = "README.md"
+authors = [
+    { name = "Samuel Vaiter", email = "samuel.vaiter@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "regex>=2024.0",
+    "torch>=2.4",
+]
+
+[project.scripts]
+easygpt = "easygpt.cli:main"
+
+[project.urls]
+Homepage = "https://svaiter.github.io/easygpt/"
+Repository = "https://github.com/svaiter/easygpt"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+docs = [
+    "zensical>=0.0.43",
+    "matplotlib>=3.8",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.22,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+default-groups = ["dev", "docs"]
+
+# CPU-only PyTorch wheels on Linux/Windows (much smaller than the CUDA ones).
+# On macOS the default PyPI wheel is used. On Colab, torch is already installed.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform != 'darwin'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
