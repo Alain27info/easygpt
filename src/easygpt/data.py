@@ -16,7 +16,10 @@ class CharTokenizer:
     """
 
     def __init__(self, text: str):
-        raise NotImplementedError("Exercise: CharTokenizer.__init__ (docs/part1/data.md)")
+        self.chars=sorted(set(text))
+        #set(text) garde un exemplaire de chaque caractère distinct du texte
+        self.char_to_id = {c: i for i, c in enumerate(self.chars)}
+       
 
     @property
     def vocab_size(self) -> int:
@@ -24,11 +27,13 @@ class CharTokenizer:
 
     def encode(self, text: str) -> list[int]:
         """Return the list of ids of the characters of ``text``."""
-        raise NotImplementedError("Exercise: CharTokenizer.encode (docs/part1/data.md)")
+        return [self.char_to_id[c] for c in text]
+        
 
     def decode(self, ids: list[int]) -> str:
         """Inverse of :meth:`encode`."""
-        raise NotImplementedError("Exercise: CharTokenizer.decode (docs/part1/data.md)")
+        return "".join(self.chars[i] for i in ids)
+        
 
     # -- serialization (given) ----------------------------------------------
     def to_dict(self) -> dict:
